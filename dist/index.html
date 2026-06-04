@@ -12,11 +12,59 @@
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
     <title>Techinnovate - Fleet CNG Tracker v3.0</title>
-    <script type="module" crossorigin src="./assets/index-CKRtEOtj.js"></script>
-    <link rel="modulepreload" crossorigin href="./assets/vendor-BHLbNleY.js">
     <link rel="stylesheet" crossorigin href="./assets/index-DCInmDCn.css">
-  <link rel="manifest" href="./manifest.webmanifest"><script id="vite-plugin-pwa:register-sw" src="./registerSW.js"></script></head>
+  <link rel="manifest" href="./manifest.webmanifest">
+    <style>
+      #root { display: none; }
+      .app-loading { color: #E10600; padding: 40px; text-align: center; font-size: 18px; }
+      .status { margin-top: 20px; padding: 10px; background: #f0f0f0; }
+      #app-error { display: none; color: #ff0000; padding: 20px; border: 1px solid #ff0000; }
+    </style>
+    <script type="module">
+      window.addEventListener('error', (e) => {
+        document.getElementById('app-error').textContent = 'SCRIPT ERROR: ' + e.message;
+        document.getElementById('app-error').style.display = 'block';
+      });
+      console.log('Loading app...');
+    </script>
+  </head>
   <body>
+    <div class="app-loading">
+      <h2>Techinnovate - Fleet CNG Tracker v3.0</h2>
+      <p>Loading...</p>
+      <div class="status">
+        <p><strong>Checking assets:</strong></p>
+        <p>index.html: OK</p>
+        <p>Logo: <!-- <a href="./logo.jpg" target="_blank">Test logo</a> --></p>
+        <p>JS: <span id="js-status">Checking...</span></p>
+        <p>CSS: <span id="css-status">Checking...</span></p>
+        <p>Manifest: <span id="manifest-status">Checking...</span></p>
+      </div>
+      <div id="app-error"></div>
+    </div>
     <div id="root"></div>
+    <script type="module" crossorigin src="./assets/index-CKRtEOtj.js"></script>
+    <script id="vite-plugin-pwa:register-sw" src="./registerSW.js"></script>
+    <script>
+      setTimeout(() => {
+        const jsStatus = document.getElementById('js-status');
+        const cssStatus = document.getElementById('css-status');
+        const manifestStatus = document.getElementById('manifest-status');
+        const root = document.getElementById('root');
+        
+        if (jsStatus) jsStatus.textContent = window._VITE_ASSETS_LOADED ? '✓ Loaded (Vite)' : '✗ Not found';
+        if (cssStatus) cssStatus.textContent = document.getElementById('root').offsetWidth > 0 ? '✓ Loaded' : '✗ Failed';
+        if (manifestStatus) manifestStatus.textContent = 'Loaded';
+        
+        setTimeout(() => {
+          const loading = document.querySelector('.app-loading');
+          if (loading && window._VITE_ASSETS_LOADED) {
+            loading.style.display = 'none';
+            document.getElementById('root').style.display = 'block';
+            console.log('App loaded successfully');
+          }
+        }, 5000);
+      }, 1000);
+    </script>
   </body>
 </html>
